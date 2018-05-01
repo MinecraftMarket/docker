@@ -73,8 +73,7 @@ COPY jenkins.sh /usr/local/bin/jenkins.sh
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
 USER root
-RUN mkdir /etc/docker
-COPY daemon.json /etc/docker/daemon.json
+
 RUN apt-get update \
       && apt-get install -y sudo \
       && rm -rf /var/lib/apt/lists/*
@@ -99,6 +98,7 @@ RUN apt-get update && \
 RUN curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose
 
+COPY docker.service /etc/systemd/system/multi-user.target.wants/docker.service
 RUN service docker start
 
 ENV DOCKER_GROUP docker
