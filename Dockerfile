@@ -99,11 +99,8 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-co
 
 RUN service docker start
 
-ENV DOCKER_SOCKET /var/run/docker.sock
-RUN export DOCKER_GID=$(stat -c '%g' ${DOCKER_SOCKET})
 ENV DOCKER_GROUP docker
 ENV JENKINS_USER jenkins
-RUN groupadd -for -g ${DOCKER_GID} ${DOCKER_GROUP}
 RUN usermod -aG ${DOCKER_GROUP} ${JENKINS_USER}
 
 USER ${user}
