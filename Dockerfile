@@ -103,6 +103,7 @@ RUN service docker start
 
 ENV DOCKER_GROUP docker
 ENV JENKINS_USER jenkins
+ENV DOCKER_HOST tcp://127.0.0.1:2375
 RUN usermod -aG ${DOCKER_GROUP} ${JENKINS_USER}
 
 USER ${user}
