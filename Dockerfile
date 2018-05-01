@@ -78,6 +78,14 @@ RUN apt-get update \
       && rm -rf /var/lib/apt/lists/*
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
+RUN export DOCKER_GID=$(stat -c '%g' ${DOCKER_SOCKET})
+
+ENV DOCKER_SOCKET /var/run/docker.sock
+ENV DOCKER_GROUP docker
+ENV JENKINS_USER jenkins
+sudo groupadd -for -g ${DOCKER_GID} ${DOCKER_GROUP}
+sudo usermod -aG ${DOCKER_GROUP} ${JENKINS_USER}
+
 # Install the latest Docker CE binaries
 RUN apt-get update && \
     apt-get -y install apt-transport-https \
