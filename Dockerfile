@@ -80,12 +80,6 @@ RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 RUN export DOCKER_GID=$(stat -c '%g' ${DOCKER_SOCKET})
 
-ENV DOCKER_SOCKET /var/run/docker.sock
-ENV DOCKER_GROUP docker
-ENV JENKINS_USER jenkins
-sudo groupadd -for -g ${DOCKER_GID} ${DOCKER_GROUP}
-sudo usermod -aG ${DOCKER_GROUP} ${JENKINS_USER}
-
 # Install the latest Docker CE binaries
 RUN apt-get update && \
     apt-get -y install apt-transport-https \
@@ -104,6 +98,14 @@ RUN apt-get update && \
 # docker-compose
 RUN curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose
+
+RUN service docker start
+
+ENV DOCKER_SOCKET /var/run/docker.sock
+ENV DOCKER_GROUP docker
+ENV JENKINS_USER jenkins
+sudo groupadd -for -g ${DOCKER_GID} ${DOCKER_GROUP}
+sudo usermod -aG ${DOCKER_GROUP} ${JENKINS_USER}
 
 USER ${user}
 # from a derived Dockerfile, can use `RUN plugins.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle
