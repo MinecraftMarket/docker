@@ -103,8 +103,8 @@ RUN export DOCKER_GID=$(stat -c '%g' ${DOCKER_SOCKET})
 ENV DOCKER_SOCKET /var/run/docker.sock
 ENV DOCKER_GROUP docker
 ENV JENKINS_USER jenkins
-sudo groupadd -for -g ${DOCKER_GID} ${DOCKER_GROUP}
-sudo usermod -aG ${DOCKER_GROUP} ${JENKINS_USER}
+RUN groupadd -for -g ${DOCKER_GID} ${DOCKER_GROUP}
+RUN usermod -aG ${DOCKER_GROUP} ${JENKINS_USER}
 
 USER ${user}
 # from a derived Dockerfile, can use `RUN plugins.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle
