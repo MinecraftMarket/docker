@@ -78,8 +78,6 @@ RUN apt-get update \
       && rm -rf /var/lib/apt/lists/*
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
-RUN export DOCKER_GID=$(stat -c '%g' ${DOCKER_SOCKET})
-
 # Install the latest Docker CE binaries
 RUN apt-get update && \
     apt-get -y install apt-transport-https \
@@ -101,6 +99,7 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-co
 
 RUN service docker start
 
+RUN export DOCKER_GID=$(stat -c '%g' ${DOCKER_SOCKET})
 ENV DOCKER_SOCKET /var/run/docker.sock
 ENV DOCKER_GROUP docker
 ENV JENKINS_USER jenkins
