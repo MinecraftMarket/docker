@@ -73,6 +73,8 @@ COPY jenkins.sh /usr/local/bin/jenkins.sh
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
 USER root
+RUN mkdir /etc/docker
+COPY daemon.json /etc/docker/daemon.json
 RUN apt-get update \
       && apt-get install -y sudo \
       && rm -rf /var/lib/apt/lists/*
