@@ -15,6 +15,7 @@ services:
       VIRTUAL_PORT: 8080
       JAVA_OPTS: -Djava.awt.headless=true
     restart: always
+    privileged: true
 
 volumes:
   jenkins_home:
