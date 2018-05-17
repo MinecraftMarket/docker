@@ -1,11 +1,11 @@
 #FROM openjdk:8-jdk
-FROM debian:stretch
+FROM debian:jessie
 
 RUN apt-get update && apt-get install -y git curl software-properties-common dirmngr && rm -rf /var/lib/apt/lists/*
-RUN add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu yakkety main"
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886
+RUN echo "deb http://http.debian.net/debian jessie-backports main" | tee --append /etc/apt/sources.list.d/jessie-backports.list > /dev/null
 RUN apt-get update
-RUN apt-get install oracle-java8-installer
+RUN apt-get install -t jessie-backports openjdk-8-jdk
+RUN update-java-alternatives -s java-1.8.0-openjdk-amd64
 
 ARG user=jenkins
 ARG group=jenkins
