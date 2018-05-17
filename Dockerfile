@@ -115,4 +115,4 @@ USER ${user}
 COPY plugins.sh /usr/local/bin/plugins.sh
 COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 
-ENTRYPOINT sudo service docker start && bash
+CMD sudo service docker start && /bin/bash
