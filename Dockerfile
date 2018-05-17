@@ -3,7 +3,6 @@ FROM debian:stretch
 
 RUN apt-get update && apt-get install -y git curl software-properties-common dirmngr && rm -rf /var/lib/apt/lists/*
 RUN add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu yakkety main"
-RUN apt update
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886
 RUN apt-get update
 RUN apt-get install oracle-java8-installer
