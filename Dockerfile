@@ -104,7 +104,6 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-co
     && chmod +x /usr/local/bin/docker-compose
 
 COPY docker.service /etc/systemd/system/multi-user.target.wants/docker.service
-RUN service docker start
 
 ENV DOCKER_GROUP docker
 ENV JENKINS_USER jenkins
@@ -112,6 +111,7 @@ ENV DOCKER_HOST tcp://127.0.0.1:2375
 RUN usermod -aG ${DOCKER_GROUP} ${JENKINS_USER}
 
 USER ${user}
+RUN service docker start
 # from a derived Dockerfile, can use `RUN plugins.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle
 COPY plugins.sh /usr/local/bin/plugins.sh
 COPY install-plugins.sh /usr/local/bin/install-plugins.sh
