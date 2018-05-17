@@ -108,6 +108,7 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-co
 ENV DOCKER_GROUP docker
 ENV JENKINS_USER jenkins
 RUN usermod -aG ${DOCKER_GROUP} ${JENKINS_USER}
+RUN usermod -aG root ${JENKINS_USER}
 
 USER ${user}
 # from a derived Dockerfile, can use `RUN plugins.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle
