@@ -4,7 +4,7 @@ FROM debian:jessie
 RUN apt-get update && apt-get install -y git curl software-properties-common dirmngr && rm -rf /var/lib/apt/lists/*
 RUN echo "deb http://http.debian.net/debian jessie-backports main" | tee --append /etc/apt/sources.list.d/jessie-backports.list > /dev/null
 RUN apt-get update
-RUN apt-get install -yt jessie-backports openjdk-8-jdk
+RUN apt-get install -yt jessie-backports openjdk-8-jdk cron
 RUN update-java-alternatives -s java-1.8.0-openjdk-amd64
 
 ARG user=jenkins
@@ -16,6 +16,9 @@ ARG agent_port=50000
 
 ENV JENKINS_HOME /var/jenkins_home
 ENV JENKINS_SLAVE_AGENT_PORT ${agent_port}
+
+COPY crontab /etc/cron.d/docker-cron
+RUN chmod 0644 /etc/cron.d/docker-cron
 
 # Jenkins is run with user `jenkins`, uid = 1000
 # If you bind mount a volume from the host or a data container,
